@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>超市管理系统——帐号添加</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./styles/reset.css">
+    <!-- 引入elementUI样式 -->
+    <link rel="stylesheet" href="./styles/elementUI.css">
+    <!-- 引入index样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>会员管理</span>
+                </div>
+                <div class="text item">
+                    <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                        label-width="100px" class="demo-ruleForm">
+                        <!-- 搜索 -->
+                        <span>搜索：</span>
+                        <el-input placeholder="请输入内容" v-model="input10">
+                        </el-input><span>会员卡，会员名，电话，手机</span>
+                        <el-button type="success" @click="submitForm('ruleForm2')">查询</el-button>
+                        <!-- 下面会员内容 -->
+                        <template>
+                            <el-table :data="tableData3" style="width: 100%" height="250">
+                                <el-table-column fixed prop="card" label="会员卡卡号">
+                                </el-table-column>
+                                <el-table-column prop="name" label="会员姓名">
+                                </el-table-column>
+                                <el-table-column prop="level" label="会员等级">
+                                </el-table-column>
+                                <el-table-column prop="integrate" label="积分">
+                                </el-table-column>
+                                <el-table-column prop="discount" label="折扣">
+                                </el-table-column>
+                                <el-table-column prop="phone" label="手机号">
+                                </el-table-column>
+                                <el-table-column prop="landline_number" label="座机号">
+                                </el-table-column>
+                                <el-table-column label="管理">
+                                    <template slot-scope="scope">
+                                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" type="primary" plain><i class="el-icon-edit"></i>编辑</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <!-- 分页 -->
+                            
+                        </template>
+                    </el-form>
+                </div>
+            </el-card>
+        </el-main>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义方法判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不同时候，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        //或者不出错就不传错误
+                        callback();
+                    }
+                };
+                return {
+                    tableData3: [{
+                        card: '22222222',
+                        name: '王小虎',
+                        level: '铜牌会员',
+                        integrate: 221,
+                        discount: '50%',
+                        phone: 15900000000,
+                        landline_number: 15900000000
+                    }, {
+                        card: '111111',
+                        name: '丽丽',
+                        level: '普通会员',
+                        integrate: 0,
+                        discount: '99%',
+                        phone: 15900000000,
+                        landline_number: 15900000000
+                    }],
+                    input10: '',
+                    labelPosition: 'top',//字体放顶部
+                    ruleForm2: {
+                        pass: '', //密码
+                        checkPass: '', //确认密码
+                        username: '',
+                        region: '',//用户组,
+                        level: ''
+                    },
+                    //规则
+                    rules2: {
+                        pass: [//验证密码
+                            { required: true, message: "密码必须填写", trigger: 'blur' },
+                            { min: 6, max: 12, message: "密码长度必须在6到12位之间", trigger: 'blur' }
+                        ],
+                        checkPass: [//验证确认密码
+                            { required: true, message: "请再次输入密码", trigger: 'blur' },
+                            { min: 6, max: 12, message: "确认密码长度必须在6到12位之间", trigger: 'blur' },
+                            { validator: validatePass2, trigger: 'blur' }
+                        ],
+
+                    }
+                };
+            },
+            methods: {
+                //提交的方法
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                            //1.表单验证通过后发起ajax请求到后端路由
+                            //获取表单数据
+                            console.log("前端数据对象：", this.ruleForm2);
+                            $.post("./users/add", this.ruleForm2, function (result) {
+                                //5.前端根据返回结果处理业务逻辑
+                                console.log(result)
+                            })
+
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                // //重置样式的方法
+                // resetForm(formName) {
+                //     this.$refs[formName].resetFields();
+                // }
+            },
+
+        });
+    </script>
+</body>
+
+</html>

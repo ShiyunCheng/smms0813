@@ -1,0 +1,173 @@
+/* 页面在不同的分辨率下都要铺满 */
+html,body,#app,.el-container{
+  height: 100%;
+}
+
+.el-header, .el-footer {
+  color: #333;
+  line-height: 30px;
+}
+
+.el-header h2{
+    color: #000;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.el-header p{
+  margin-top: 15px;
+}
+
+
+/* 左侧栏的样式 */
+.el-aside {
+  background: url(../images/left_bg.png) repeat-y;
+}
+.el-aside a{
+  color:#fff;
+  text-decoration: none;
+}
+
+/* 左侧顶部菜单 */
+#leftMenuTitle{
+  line-height: 30px;
+  text-align: right;
+  padding-right: 20px;
+  color: #fff;
+  font-size: 14px;
+}
+#leftMenuTitle h1{
+  font-size: 22px;
+  padding: 30px 0px;
+}
+/* 左侧导航菜单 */
+.el-menu{
+  background-color: transparent;
+  border-right: none;
+}
+
+/* 菜单标题 */
+.el-submenu__title{
+  color: #fff;
+  background: url(../images/menu_bg.png)repeat-x;
+  height: 33px;
+  line-height: 33px;
+  width: 210px;
+  border-radius: 5px 0px 0px 5px;
+  margin-left: 20px;
+  text-align: right;
+}
+.el-submenu{
+  margin-bottom: 10px;
+}
+/* 子菜单 */
+.el-submenu .el-menu-item{
+  color:#fff;
+  height: 33px;
+  line-height: 33px;
+  width: 210px;
+  border-radius: 5px 0px 0px 5px;
+  margin-left: 20px;
+  text-align: right;
+  padding: 0 20px;
+}
+/* 子菜单选中样式 */
+.el-menu-item.is-active{
+   background:url(../images/menu_bgOver.png)repeat-x;
+   color:blue;
+}
+
+.el-menu-item.is-active a{
+  color:blue;
+}
+/* 鼠标悬停和焦点 */
+.el-menu-item:focus, .el-menu-item:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+}
+/* 隐藏主菜单箭头 */
+.el-submenu__icon-arrow{
+  display: none;
+}
+
+/* 右侧内容样式 */
+
+.el-main {
+  color: #333;
+  
+}
+
+.el-main .el-card__header{
+    height: 41px;
+    line-height: 41px;
+    padding: 0px 20px;
+
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+
+    background: url(../images/cardTitleBg.png) repeat-x;
+}
+
+.el-main .el-card__body{
+    background-color: #fff;
+}
+.el-main .el-card__header{
+  background-color: #eaeaea;
+}
+
+.el-icon-warning{
+  color: #2f58cb;
+}
+
+#importAlert{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #2f58cb;
+}
+
+.el-alert__content .el-alert__title{
+  color: #333;
+}
+
+body > .el-container {
+   background-color: #F8F8F8;
+}
+
+.el-alert{
+  background-color: #dbe3ff;
+  border: 1px solid #a2b4ee;
+}
+
+.el-footer{
+    font-size: 12px;
+}
+
+.el-footer p{
+    border-top: solid 1px #ccc;
+    line-height: 50px;
+}
+
+/* 帐号注册页面 */
+.el-input{
+  width:36%
+}
+/* 把下拉列表恢复到100% */
+.el-input--suffix{
+  width: 100%
+}
+
+/* 添加分类页面 */
+.el-radio{
+  line-height:60px;
+}
+
+/* 会员管理 */
+.el-table{
+  border-top: 2px solid rgb(230, 228, 228);
+  margin-top: 20px;
+}
+.mat20{
+  margin-top: 20px !important;
+}

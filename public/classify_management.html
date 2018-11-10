@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>超市管理系统——帐号添加</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./styles/reset.css">
+    <!-- 引入elementUI样式 -->
+    <link rel="stylesheet" href="./styles/elementUI.css">
+    <!-- 引入index样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>分类管理</span>
+                </div>
+                <div class="text item">
+
+
+                    <template>
+                        <el-table :data="tableData" stripe style="width: 100%">
+                            <el-table-column prop="cm" label="分类名称">
+                            </el-table-column>
+                            
+                            <el-table-column label="管理">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" type="primary" plain><i class="el-icon-edit"></i>编辑</el-button>
+                                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                            <!-- <el-table-column prop="address" label="地址">
+                                </el-table-column> -->
+                        </el-table>
+                    </template>
+
+                </div>
+            </el-card>
+        </el-main>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                // 自定义方法判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不同时候，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        //或者不出错就不传错误
+                        callback();
+                    }
+                };
+                return {
+                    tableData: [{
+                        cm: '日用品',
+                    }, {
+                        cm: '|_舒肤佳',
+                    }, {
+                        cm: '|_|_舒肤佳A',
+                    }, {
+                        cm: '|_|_舒肤佳B',
+
+                    },{
+                        cm: '|_海飞丝',
+                    },{
+                        cm: '食品',
+                    },{
+                        cm: '|_优乐美',
+                    },{
+                        cm: '烟酒',
+                    },{
+                        cm: '|_龙凤呈祥',
+                    },{
+                        cm: '|_茅台',
+                    },
+                ],
+                    //规则
+                    // rules2: {
+
+                    //     classifiname: [//验证用户名
+                    //         { required: true, message: "分类名称必须填写", trigger: 'blur' },
+                    //         // { min: 6, max: 18, message: "用户名长度必须在6到12位之间", trigger: 'blur' }
+                    //     ]
+
+                    // }
+                };
+            },
+            methods: {
+                handleEdit(index, row) {
+                    console.log(index, row);
+                },
+                handleDelete(index, row) {
+                    console.log(index, row);
+                }
+                // onSubmit() {
+                //     console.log('submit!');
+                // },
+
+            },
+
+        });
+    </script>
+</body>
+
+</html>

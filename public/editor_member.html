@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>超市管理系统——帐号添加</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./styles/reset.css">
+    <!-- 引入elementUI样式 -->
+    <link rel="stylesheet" href="./styles/elementUI.css">
+    <!-- 引入index样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>添加管理员帐号</span>
+                </div>
+                <div class="text item">
+                    <!-- 帐号添加的页面 -->
+                    <el-form label-position="top" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                        label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="真实姓名：" prop="real_name">
+                            <el-input v-model="ruleForm2.username"></el-input>
+                        </el-form-item>
+                        <el-form-item label="会员卡卡号：" prop="card">
+                            <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="用户组" prop="region">
+                            <el-select v-model="ruleForm2.region" placeholder="请选择用户组">
+                                <el-option label="超级管理员" value="超级管理员"></el-option>
+                                <el-option label="管理员" value="管理员"></el-option>
+                                <el-option label="普通用户" value="普通用户"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="身份证号" prop="indentity">
+                            <el-input type="text" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+                        </el-form-item>
+
+
+
+                    
+
+
+                 
+                        <span>身份证号码：</span>
+                        <el-input placeholder="请输入内容" v-model="input10">
+                        </el-input></br>
+                        <template class="choice">
+                            <span>状态：</span>
+                            <el-radio v-model="radio" label="1">启用</el-radio>
+                            <el-radio v-model="radio" label="2">禁用</el-radio>
+                        </template></br>
+                        <span>手机号码：</span>
+                        <el-input placeholder="请输入内容" v-model="input10">
+                        </el-input></br>
+                        <span>座机号码：</span>
+                        <el-input placeholder="请输入内容" v-model="input10" class="mat20">
+                        </el-input></br>
+                        <span>邮政地址：</span>
+                        <el-input placeholder="请输入内容" v-model="input10" class="mat20">
+                        </el-input></br>
+                        <el-form-item label="地区选择:" prop="classification" class="mat20">
+                            <el-select v-model="ruleForm2.classification" placeholder="------请选择省份------">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                                <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                            <el-select v-model="ruleForm2.classification" placeholder="------请选择城市------">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                                <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <span>详细地址：</span>
+                        <el-input placeholder="请输入内容" v-model="input10" class="mat20">
+                        </el-input></br>
+                        <span>邮政编码：</span>
+                        <el-input placeholder="请输入内容" v-model="input10" class="mat20">
+                        </el-input></br>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
+                        </el-form-item>
+
+
+                    </el-form>
+
+                </div>
+            </el-card>
+        </el-main>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义方法判断密码和确认密码是否相等
+                return {
+                    input: '',
+                    radio: '1',
+                    input10: '',
+                    labelPosition: 'top',//字体放顶部
+                    labelPosition1: 'left',
+                    ruleForm2: {
+                        card: '',
+                        real_name: '',
+                        region: ''
+                    },
+                    //规则
+                    rules2: {
+                        card: [//验证密码
+                            { required: true, message: "卡号必须填写", trigger: 'blur' },
+                            { min: 9, max: 18, message: "卡号长度必须在9到18位之间", trigger: 'blur' }
+                        ],
+
+                        real_name: [//验证用户名
+                            { required: true, message: "真实姓名必须填写", trigger: 'blur' },
+                            { min: 2, max: 8, message: "真实姓名长度必须在2到8位之间", trigger: 'blur' }
+                        ],
+                        region: [
+                            { required: true, message: '请选择用户组', trigger: 'change' }
+                        ]
+                    }
+                };
+            },
+            // methods: {
+            //     //提交的方法
+            //     submitForm(formName) {
+            //         this.$refs[formName].validate((valid) => {
+            //             if (valid) {
+            //                 console.log('submit!');
+            //                 //1.表单验证通过后发起ajax请求到后端路由
+            //                 //获取表单数据
+            //                 console.log("前端数据对象：", this.ruleForm2);
+            //                 $.post("./users/add", this.ruleForm2, function (result) {
+            //                     //5.前端根据返回结果处理业务逻辑
+            //                     console.log(result)
+            //                 })
+
+            //             } else {
+            //                 console.log('error submit!!');
+            //                 return false;
+            //             }
+            //         });
+            //     },
+            //     // //重置样式的方法
+            //     // resetForm(formName) {
+            //     //     this.$refs[formName].resetFields();
+            //     // }
+            // }
+            methods: {
+                //提交表单的方法
+                submitForm(formName) {
+                    //找到表单对象用validate（）验证方法
+                    //validate（）验证方法回调函数的valid参数表示验证的结果
+                    //$("#loginForm")
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                           
+                            alert('登录成功！');
+                        } else {
+                            console.log('登录失败!!');
+
+                        }
+                    });
+                },
+                //重置表达的方法
+                resetForm(formName) {
+                    //调用重置方法情况列表
+                    this.$refs[formName].resetFields();
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>

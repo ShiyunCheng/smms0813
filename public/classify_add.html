@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>超市管理系统——帐号添加</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./styles/reset.css">
+    <!-- 引入elementUI样式 -->
+    <link rel="stylesheet" href="./styles/elementUI.css">
+    <!-- 引入index样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>添加管理</span>
+                </div>
+                <div class="text item">
+
+
+                    <!-- 分类名称 -->
+                    <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                        label-width="100px" class="demo-ruleForm">
+                        <!-- 所属分类下拉框 -->
+                        <el-form-item label="所属分类:" prop="classification">
+                            <el-select v-model="ruleForm2.classification" placeholder="------顶级分类------">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                                <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <!-- 分类名称 -->
+                        <el-form-item label="分类名称" prop="classifiname">
+                            <el-input v-model="ruleForm2.classifiname"></el-input>
+                        </el-form-item>
+                        <!-- 状态单选框 -->
+                        <template class="choice">
+                            <h3>状态：</h3>
+                            <el-radio v-model="radio" label="1">启用</el-radio>
+                            <el-radio v-model="radio" label="2">禁用</el-radio>
+                        </template>
+                        <el-form-item>
+                            <el-button type="success" @click="submitForm('ruleForm2')">添加</el-button>
+
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-card>
+        </el-main>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                // 自定义方法判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不同时候，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        //或者不出错就不传错误
+                        callback();
+                    }
+                };
+                return {
+                    radio: '1',
+                    sizeForm: {
+                        name: '',
+                        region: '',
+                        date1: '',
+                        date2: '',
+                        delivery: false,
+                        type: [],
+                        resource: '',
+                        desc: ''
+                    },
+                    labelPosition: 'top',//字体放顶部
+                    ruleForm2: {
+                        classifiname: '',
+                        classification: ''
+                    },
+                    //规则
+                    rules2: {
+                        // pass: [//验证密码
+                        //     { required: true, message: "密码必须填写", trigger: 'blur' },
+                        //     { min: 6, max: 12, message: "密码长度必须在6到12位之间", trigger: 'blur' }
+                        // ],
+                        // checkPass: [//验证确认密码
+                        //     { required: true, message: "请再次输入密码", trigger: 'blur' },
+                        //     { min: 6, max: 12, message: "确认密码长度必须在6到12位之间", trigger: 'blur' },
+                        //     { validator: validatePass2, trigger: 'blur' }
+                        // ],
+                        classifiname: [//验证用户名
+                            { required: true, message: "分类名称必须填写", trigger: 'blur' }
+                            // { min: 6, max: 18, message: "用户名长度必须在6到12位之间", trigger: 'blur' }
+                        ]
+                        // region: [
+                        //     { required: true, message: '请选择用户组', trigger: 'change' }
+                        // ]
+                    }
+                };
+            },
+            methods: {
+                // onSubmit() {
+                //     console.log('submit!');
+                // },
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            },
+
+        });
+    </script>
+</body>
+
+</html>

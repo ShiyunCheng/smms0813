@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>超市管理系统——帐号修改</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./styles/reset.css">
+    <!-- 引入elementUI样式 -->
+    <link rel="stylesheet" href="./styles/elementUI.css">
+    <!-- 引入index样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>修改管理员帐号</span>
+                </div>
+                <div class="text item">
+                    <!-- 帐号添加的页面 -->
+                    <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                        label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input v-model="ruleForm2.username"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" prop="pass">
+                            <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码" prop="checkPass">
+                            <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="用户组" prop="region">
+                            <el-select v-model="ruleForm2.region" placeholder="请选择用户组">
+                                <el-option label="超级管理员" value="超级管理员"></el-option>
+                                <el-option label="管理员" value="管理员"></el-option>
+                                <el-option label="普通用户" value="普通用户"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="success" @click="submitForm('ruleForm2')">修改</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-card>
+        </el-main>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义方法判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不同时候，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        //或者不出错就不传错误
+                        callback();
+                    }
+                };
+                return {
+                    labelPosition: 'left',//字体放顶部
+                    ruleForm2: {
+                        pass: '', //密码
+                        checkPass: '', //确认密码
+                        username: '',
+                        oldPwd:'', //暂存旧的密码（用在二次加密）
+                        region: '',  //用户组
+                        u_id:0 //要修改的用户的id
+                    },
+                    //规则
+                    rules2: {
+                        pass: [//验证密码
+                            { required: true, message: "密码必须填写", trigger: 'blur' },
+                            { min: 6, max: 32, message: "密码长度必须在6到32位之间", trigger: 'blur' }
+                        ],
+                        checkPass: [//验证确认密码
+                            { required: true, message: "请再次输入密码", trigger: 'blur' },
+                            { min: 6, max: 32, message: "确认密码长度必须在6到32位之间", trigger: 'blur' },
+                            { validator: validatePass2, trigger: 'blur' }
+                        ],
+                        username: [//验证用户名
+                            { required: true, message: "用户名必须填写", trigger: 'blur' },
+                            { min: 6, max: 18, message: "用户名长度必须在6到12位之间", trigger: 'blur' }
+                        ],
+                        region: [
+                            { required: true, message: '请选择用户组', trigger: 'change' }
+                        ]
+                    }
+                };
+            },
+            methods: {
+                // handleOpen(key, keyPath) {
+                //     console.log(key, keyPath);
+                // },
+                // handleClose(key, keyPath) {
+                //     console.log(key, keyPath);
+                // },
+
+                //修改数据的提交表单方法
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                           //重新发起新的数据并且发起ajax请求到后端的保存路由
+                            $.post("/users/save", this.ruleForm2, function (result) {
+                                //5.前端根据返回结果处理业务逻辑
+                                if(result.isOk){
+                                    alert(result.msg);
+                                    location.href="member_list.html";
+                                }else{
+                                    alert(result.msg);
+                                    return false;
+                                }
+                            });
+                        } else{
+                            console.log('error submit!');
+                            return false;
+                        }
+                    });
+                },
+
+            },
+           //视图挂载完毕的钩子函数
+           mounted(){
+               //在编辑页面获取编辑id
+               //地址：member_edit.html?id=100
+               let reqUrl=location.href;
+               let id=reqUrl.split("=")[1];
+                // console.log("编辑用户的id:",id);
+               //b.发送ajax请求去获取旧的用户数据
+               $.get("/users/getUserByID",{id},(userData)=>{
+                        //c.旧的数据获取到后更新的页面（修改数据属性vue会自动更新）
+                        console.log(userData);
+                        //vue是双向数据绑定，所以直接修改模型中的数据，视图也会改变
+                        let data=userData[0];
+                        this.ruleForm2.username=data.userName;
+                        this.ruleForm2.pass=data.userPwd;
+                        this.ruleForm2.checkPass=data.userPwd;
+                        this.ruleForm2.oldPwd=data.userPwd; //暂存的旧密码（用于二次加密密码）
+                        this.ruleForm2.region=data.userGroup;
+                        this.ruleForm2.u_id=data.u_id;//把要修改的ID也改到模型中，虽然不显示，但是要发给后台，不能缺少
+                    });
+           }
+        });
+    </script>
+</body>
+
+</html>
